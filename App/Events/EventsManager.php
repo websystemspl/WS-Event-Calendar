@@ -3,6 +3,7 @@
 namespace WsEventCalendar\App\Events;
 
 use DateTime;
+
 class EventsManager
 {
   private $slug = 'wsec_event';
@@ -39,69 +40,78 @@ class EventsManager
     return $this->eventLinkFieldname;
   }
 
-  public function run(){
+  public function run()
+  {
     add_action('init', [$this, 'registerEventPostType']);
     add_action('add_meta_boxes', [$this, 'registerSingleEventFields']);
     add_action('pre_post_update', [$this, 'saveCustomFields'], 10, 2);
   }
 
-  private function getLiveAndFutureEventsArgs(int $numberOfEvents): array
+  private function getLiveAndFutureEventsArgs(int $numberOfEvents, int $offset): array
   {
-      return [
-          'post_type'      => $this->getSlug(),
-          'post_status'    => 'publish',
-          'posts_per_page' => $numberOfEvents,
-          'meta_key' => $this->geteventStartDateFieldName(),
-          'orderby' => 'meta_value',
-          'order' => 'ASC',
-          'meta_query' => [
-              [
-                  'key' => $this->getEventEndDateFieldName(),
-                  'value' => current_time('Y-m-d h:i:s'),
-                  'compare' => '>=',
-                  'type' => 'DATETIME'
-              ]
-          ],
-      ];
+    return [
+      'post_type'      => $this->getSlug(),
+      'post_status'    => 'publish',
+      'posts_per_page' => $numberOfEvents,
+      'offset' => $offset,
+      'meta_key' => $this->geteventStartDateFieldName(),
+      'orderby' => 'meta_value',
+      'order' => 'ASC',
+      'meta_query' => [
+        [
+          'key' => $this->getEventEndDateFieldName(),
+          'value' => current_time('Y-m-d h:i:s'),
+          'compare' => '>=',
+          'type' => 'DATETIME'
+        ]
+      ],
+    ];
   }
 
   private function getPastEventsArgs(int $numberOfEvents): array
   {
-      return [
-          'post_type'      => $this->getSlug(),
-          'post_status'    => 'publish',
-          'posts_per_page' => $numberOfEvents,
-          'meta_key' => $this->getEventEndDateFieldName(),
-          'orderby' => 'meta_value',
-          'order' => 'DESC',
-          'meta_query' => [
-              [
-                  'key' => $this->getEventEndDateFieldName(),
-                  'value' => current_time('Y-m-d h:i:s'),
-                  'compare' => '<',
-                  'type' => 'DATETIME'
-              ]
-          ],
-      ];
+    return [
+      'post_type'      => $this->getSlug(),
+      'post_status'    => 'publish',
+      'posts_per_page' => $numberOfEvents,
+      'meta_key' => $this->getEventEndDateFieldName(),
+      'orderby' => 'meta_value',
+      'order' => 'DESC',
+      'meta_query' => [
+        [
+          'key' => $this->getEventEndDateFieldName(),
+          'value' => current_time('Y-m-d h:i:s'),
+          'compare' => '<',
+          'type' => 'DATETIME'
+        ]
+      ],
+    ];
   }
 
-  public function getEvents(int $numberOfEvents)
+  public function getNumberOfAllLiveAndFutureEvents()
+  {
+    $liveAndFutureEvents = \get_posts($this->getLiveAndFutureEventsArgs(PHP_INT_MAX, 0));
+    return count($liveAndFutureEvents);
+  }
+
+  public function getEvents(int $numberOfEvents, int $offset)
   {
     $eventsCollection = new Events();
-    $liveAndFutureEvents = \get_posts($this->getLiveAndFutureEventsArgs($numberOfEvents));
+    $liveAndFutureEvents = \get_posts($this->getLiveAndFutureEventsArgs($numberOfEvents, $offset));
     if (count($liveAndFutureEvents) < $numberOfEvents) {
-        $pastEvents = \get_posts($this->getPastEventsArgs($numberOfEvents - count($liveAndFutureEvents)));
+      $pastEvents = \get_posts($this->getPastEventsArgs($numberOfEvents - count($liveAndFutureEvents)));
     } else {
-        $pastEvents = [];
-    } 
+      $pastEvents = [];
+    }
     foreach ([$liveAndFutureEvents, $pastEvents] as $events) {
-      foreach($events as $event) {
+      foreach ($events as $event) {
         $meta = \get_post_meta($event->ID);
         $image = get_the_post_thumbnail_url($event->ID);
         $subTitle = $meta[$this->getSubTitleFieldName()][0];
         $startDate = $meta[$this->geteventStartDateFieldName()][0];
         $endDate = $meta[$this->getEventEndDateFieldName()][0];
         $eventsCollection->add_event(new Event(
+          $event->ID,
           $event->post_title,
           $image,
           '' === $subTitle ? null : $subTitle,
@@ -109,7 +119,7 @@ class EventsManager
           new DateTime($startDate),
           new DateTime($endDate),
           '',
-      ));
+        ));
       }
     }
     return $eventsCollection->get_items();
@@ -118,24 +128,24 @@ class EventsManager
   public function registerEventPostType(): void
   {
     $labels = [
-      'name'                  => __('Events', 'web-systems-events-calendar-banner'),
-      'singular_name'         => __('Event', 'web-systems-events-calendar-banner'),
-      'menu_name'             => __('Events', 'web-systems-events-calendar-banner'),
-      'name_admin_bar'        => __('Event', 'web-systems-events-calendar-banner'),
-      'add_new'               => __('Add New', 'web-systems-events-calendar-banner'),
-      'add_new_item'          => __('Add New Event', 'web-systems-events-calendar-banner'),
-      'new_item'              => __('New Event', 'web-systems-events-calendar-banner'),
-      'edit_item'             => __('Edit Event', 'web-systems-events-calendar-banner'),
-      'view_item'             => __('View Event', 'web-systems-events-calendar-banner'),
-      'all_items'             => __('All Events', 'web-systems-events-calendar-banner'),
-      'search_items'          => __('Search Events', 'web-systems-events-calendar-banner'),
-      'parent_item_colon'     => __('Parent Events:', 'web-systems-events-calendar-banner'),
-      'not_found'             => __('No events found.', 'web-systems-events-calendar-banner'),
-      'not_found_in_trash'    => __('No events found in Trash.', 'web-systems-events-calendar-banner'),
-      'archives'              => __('Event archives',  'web-systems-events-calendar-banner'),
-      'filter_items_list'     => __('Filter events list',  'web-systems-events-calendar-banner'),
-      'items_list_navigation' => __('Events items navigation', 'web-systems-events-calendar-banner'),
-      'items_list'            => __('Events list', 'web-systems-events-calendar-banner')
+      'name'                  => __('Events', 'web-systems-events-calendar'),
+      'singular_name'         => __('Event', 'web-systems-events-calendar'),
+      'menu_name'             => __('Events', 'web-systems-events-calendar'),
+      'name_admin_bar'        => __('Event', 'web-systems-events-calendar'),
+      'add_new'               => __('Add New', 'web-systems-events-calendar'),
+      'add_new_item'          => __('Add New Event', 'web-systems-events-calendar'),
+      'new_item'              => __('New Event', 'web-systems-events-calendar'),
+      'edit_item'             => __('Edit Event', 'web-systems-events-calendar'),
+      'view_item'             => __('View Event', 'web-systems-events-calendar'),
+      'all_items'             => __('All Events', 'web-systems-events-calendar'),
+      'search_items'          => __('Search Events', 'web-systems-events-calendar'),
+      'parent_item_colon'     => __('Parent Events:', 'web-systems-events-calendar'),
+      'not_found'             => __('No events found.', 'web-systems-events-calendar'),
+      'not_found_in_trash'    => __('No events found in Trash.', 'web-systems-events-calendar'),
+      'archives'              => __('Event archives',  'web-systems-events-calendar'),
+      'filter_items_list'     => __('Filter events list',  'web-systems-events-calendar'),
+      'items_list_navigation' => __('Events items navigation', 'web-systems-events-calendar'),
+      'items_list'            => __('Events list', 'web-systems-events-calendar')
     ];
 
     $supports = [
@@ -183,7 +193,7 @@ class EventsManager
     $subTitleValue = (isset($meta[$this->getSubTitleFieldName()][0]) ? $meta[$this->getSubTitleFieldName()][0] : '');
     $eventStartDateValue = (isset($meta[$this->geteventStartDateFieldName()][0]) ? $meta[$this->geteventStartDateFieldName()][0] : '');
     $eventEndDateValue = (isset($meta[$this->getEventEndDateFieldName()][0]) ? $meta[$this->getEventEndDateFieldName()][0] : '');
-    
+
     // Use nonce for verification to secure data sending
     wp_nonce_field(basename(__FILE__), 'wsec_nonce');
 

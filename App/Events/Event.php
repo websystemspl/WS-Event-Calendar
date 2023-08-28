@@ -4,7 +4,9 @@ namespace WsEventCalendar\App\Events;
 
 use DateTime;
 
-class Event{
+class Event
+{
+    private int $id;
     private string $title;
     private string $image;
     private ?string $subTitle;
@@ -13,6 +15,10 @@ class Event{
     private DateTime $eventEndDate;
     private ?string $link;
 
+    public function getID()
+    {
+        return $this->id;
+    }
     public function getTitle(): string
     {
         return $this->title;
@@ -41,8 +47,9 @@ class Event{
     {
         return $this->link;
     }
-    public function __construct(string $title, string $image, ?string $subTitle, ?string $description, DateTime $eventStartDate, DateTime $eventEndDate, ?string $link)
+    public function __construct($id, string $title, string $image, ?string $subTitle, ?string $description, DateTime $eventStartDate, DateTime $eventEndDate, ?string $link)
     {
+        $this->id = $id;
         $this->title = $title;
         $this->image = $image;
         $this->subTitle = $subTitle;
