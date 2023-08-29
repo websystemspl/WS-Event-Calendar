@@ -50,6 +50,8 @@ class Events
             $html .= "<div class='column'>";
             if ('' !== $image) {
                 $html .= "<div class='event-image'><img src=" . $image . " width='200px' height='200px'></div>";
+            }else{
+                $html .= "<div class='event-image'><img src=" . WS_EVENT_CALENDAR_PLUGIN_DIR_URL . '/assets/img/event-placeholder.png' . " width='200px' height='200px'></div>";
             }
             $html .= "</div>";
             $html .= "<div class='column'>";

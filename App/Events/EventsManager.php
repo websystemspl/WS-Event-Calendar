@@ -6,7 +6,7 @@ use DateTime;
 
 class EventsManager
 {
-  private $slug = 'wsec_event';
+  private $slug = 'wsec-event';
   private $metaboxId = 'wsec_single_event_metabox';
   private $subTitleFieldName = "wsec_subtitle";
   private $eventStartDateFieldName = "wsec_start_event_date";
