@@ -4,7 +4,7 @@
  * Plugin Name:       WS Event Calendar
  * Text Domain:       ws_event_calendar
  * Description:       Display event calendar
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 6.0
  * Author:            Web Systems
  * Author URI:        https://www.web-systems.pl/

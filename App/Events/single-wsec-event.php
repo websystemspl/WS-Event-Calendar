@@ -4,7 +4,11 @@ Template Name: Event
 Template Post Type: wsec-event
 */
 
-get_header();
+if(get_header('desktop') === false){
+	get_header();
+}else{
+	get_header('desktop');
+}
 
 global $post;
 $meta = \get_post_meta($post->ID);

@@ -201,15 +201,15 @@ class EventsManager
 		<tbody>
 			<tr>
 				<th><label for="' . $this->getSubTitleFieldName() . '">' . __('Event Title', 'web-systems-events-calendar') . '</label></th>
-				<td><input type="text" id="' . $this->getSubTitleFieldName() . '" name="meta[' . $this->getSubTitleFieldName() . ']" value="' . $subTitleValue . '" class="regular-text"></td>
+				<td><input required type="text" id="' . $this->getSubTitleFieldName() . '" name="meta[' . $this->getSubTitleFieldName() . ']" value="' . $subTitleValue . '" class="regular-text"></td>
 			</tr>
 			<tr>
 				<th><label for="' . $this->geteventStartDateFieldName() . '">' . __('Start Date', 'web-systems-events-calendar') . '</label></th>
-        <td><input type="datetime-local" id="' . $this->geteventStartDateFieldName() . '" name="meta[' . $this->geteventStartDateFieldName() . ']" value="' . $eventStartDateValue . '"></td>
+        <td><input required type="datetime-local" id="' . $this->geteventStartDateFieldName() . '" name="meta[' . $this->geteventStartDateFieldName() . ']" value="' . $eventStartDateValue . '"></td>
 			</tr>
       <tr>
         <th><label for="' . $this->getEventEndDateFieldName() . '">' . __('End Date', 'web-systems-events-calendar') . '</label></th>
-        <td><input type="datetime-local" id="' . $this->getEventEndDateFieldName() . '" name="meta[' . $this->getEventEndDateFieldName() . ']" value="' . $eventEndDateValue . '"></td>
+        <td><input required type="datetime-local" id="' . $this->getEventEndDateFieldName() . '" name="meta[' . $this->getEventEndDateFieldName() . ']" value="' . $eventEndDateValue . '"></td>
       </tr>
 		</tbody>
 	</table>';
