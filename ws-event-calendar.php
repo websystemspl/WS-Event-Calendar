@@ -33,8 +33,7 @@ require __DIR__ . '/vendor/autoload.php';
 //   'ws_event_calendar'
 // );
 
-
-class WsInpostMapPlugin
+class WsEventCalendar
 {
   public function __construct()
   {
@@ -45,14 +44,16 @@ class WsInpostMapPlugin
 
   public static function activate()
   {
+    \flush_rewrite_rules();
   }
 
   public static function deactivate()
   {
+    \flush_rewrite_rules();
   }
 }
 
-register_activation_hook(__FILE__, [WsInpostMapPlugin::class, 'activate']);
-register_deactivation_hook(__FILE__, [WsInpostMapPlugin::class, 'deactivate']);
+register_activation_hook(__FILE__, [WsEventCalendar::class, 'activate']);
+register_deactivation_hook(__FILE__, [WsEventCalendar::class, 'deactivate']);
 
-new WsInpostMapPlugin();
+new WsEventCalendar();

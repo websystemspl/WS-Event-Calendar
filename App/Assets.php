@@ -11,7 +11,7 @@ class Assets
   public function addStylesAndScripts()
   {
     /* Styles */
-
+    \wp_enqueue_style('ws-events-styles', WS_EVENT_CALENDAR_PLUGIN_DIR_URL . 'assets/css/frontend/events-style.css');
 
     /* Scripts */
   }
