@@ -14,7 +14,7 @@ class PluginManager
     $eventManager = new EventsManager;
     $eventManager->run();
     add_filter('single_template', [$this, 'singleEventTemplate']);
-    \add_shortcode('eventList', [$this, 'displayEventList']);
+    \add_shortcode('events', [$this, 'displayEventList']);
     //\add_shortcode( 'singleEvent', [$this,'displaySingleEvent'] );
   }
 

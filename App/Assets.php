@@ -2,10 +2,12 @@
 
 namespace WsEventCalendar\App;
 
+use WsEventCalendar\App\Events\EventsManager;
 class Assets
 {
   public function __construct()
   {
+    \add_action('admin_enqueue_scripts', [$this, "addAdminStylesAndScripts"], 10);
     \add_action('wp_enqueue_scripts', [$this, "addStylesAndScripts"], 10);
   }
   public function addStylesAndScripts()
@@ -14,5 +16,12 @@ class Assets
     \wp_enqueue_style('ws-events-styles', WS_EVENT_CALENDAR_PLUGIN_DIR_URL . 'assets/css/frontend/events-style.css');
 
     /* Scripts */
+  }
+
+  public function addAdminStylesAndScripts($hook){
+    $eventManager = new EventsManager;
+    if($hook === 'post-new.php' || $hook === 'post.php'){
+        \wp_enqueue_script('ws-events-styles', WS_EVENT_CALENDAR_PLUGIN_DIR_URL . 'assets/js/admin/events.js');
+    }
   }
 }
