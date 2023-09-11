@@ -12,7 +12,7 @@ if (get_header('desktop') === false) {
 
 global $post;
 $meta = \get_post_meta($post->ID);
-$image = wp_get_attachment_image($meta['_thumbnail_id'][0]);
+$image = wp_get_attachment_image($meta['_thumbnail_id'][0], [200, 200]);
 $startDate = strtotime($meta['wsec_start_event_date'][0]);
 $endDate = strtotime($meta['wsec_end_event_date'][0]);
 ?>
