@@ -21,18 +21,18 @@ $endDate = strtotime($meta['wsec_end_event_date'][0]);
 <main class="main">
 	<div class='events-list'>
 		<div class='event'>
-			<h2 class='title'><?php echo $post->post_title; ?></h2>
+			<h2 class='title'><?php echo esc_html($post->post_title); ?></h2>
 			<div class='columns'>
 				<div class='column'>
 					<div class='event-image'><?php echo $image; ?></div>
 				</div>
 				<div class='column'>
 					<div class="event-info">
-						<h3 class='sub-title'><?php echo $meta['wsec_subtitle'][0]; ?></h3>
-						<p class='start-date'><?php echo __('Start: ', 'web-systems-events-calendar') . date('Y-m-d h:i:s', $startDate); ?></p>
-						<p class='end-date'><?php echo __('End: ', 'web-systems-events-calendar') . date('Y-m-d h:i:s', $endDate); ?></p>
+						<h3 class='sub-title'><?php echo esc_html($meta['wsec_subtitle'][0]); ?></h3>
+						<p class='start-date'><?php echo esc_html__('Start: ', 'web-systems-events-calendar') . date('Y-m-d h:i:s', $startDate); ?></p>
+						<p class='end-date'><?php echo esc_html__('End: ', 'web-systems-events-calendar') . date('Y-m-d h:i:s', $endDate); ?></p>
 						<p class='time-left'></p>
-						<p class='description'><?php echo $post->post_content; ?></p>
+						<p class='description'><?php echo esc_html($post->post_content); ?></p>
 					</div>
 				</div>
 			</div>
