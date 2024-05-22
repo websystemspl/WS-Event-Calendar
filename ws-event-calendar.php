@@ -2,7 +2,7 @@
 
 /*
  * Plugin Name:       WS Event Calendar
- * Text Domain:       ws_event_calendar
+ * Text Domain:       ws-event-calendar
  * Description:       Display event calendar
  * Version:           1.0.1
  * Requires at least: 6.0
@@ -27,17 +27,11 @@ if (!defined('WS_EVENT_CALENDAR_PLUGIN_DIR_URL')) {
 
 require __DIR__ . '/vendor/autoload.php';
 
-// YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-//   'https://update.web-systems.pl/?action=get_metadata&slug=ws_event_calendar',
-//   __FILE__,
-//   'ws_event_calendar'
-// );
-
 class WsEventCalendar
 {
   public function __construct()
   {
-    load_plugin_textdomain('ws_event_calendar', false, dirname(plugin_basename(__FILE__)) . '/languages');
+    load_plugin_textdomain('web-systems-events-calendar', false, dirname(plugin_basename(__FILE__)) . '/languages');
     $pluginManager = new WsEventCalendar\App\PluginManager;
     $pluginManager->run();
   }
