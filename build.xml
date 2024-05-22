@@ -69,7 +69,6 @@
 				<include name="*.php" />
 				<include name="*.md" />
 				<include name="*.txt" />
-				<include name=".env" />
 			</fileset>
 		</copy>
 		<zip destfile="${basedir}/ws-event-calendar.zip">
