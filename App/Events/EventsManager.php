@@ -128,24 +128,24 @@ class EventsManager
   public function registerEventPostType(): void
   {
     $labels = [
-      'name'                  => __('Events', 'web-systems-events-calendar'),
-      'singular_name'         => __('Event', 'web-systems-events-calendar'),
-      'menu_name'             => __('Events', 'web-systems-events-calendar'),
-      'name_admin_bar'        => __('Event', 'web-systems-events-calendar'),
-      'add_new'               => __('Add New', 'web-systems-events-calendar'),
-      'add_new_item'          => __('Add New Event', 'web-systems-events-calendar'),
-      'new_item'              => __('New Event', 'web-systems-events-calendar'),
-      'edit_item'             => __('Edit Event', 'web-systems-events-calendar'),
-      'view_item'             => __('View Event', 'web-systems-events-calendar'),
-      'all_items'             => __('All Events', 'web-systems-events-calendar'),
-      'search_items'          => __('Search Events', 'web-systems-events-calendar'),
-      'parent_item_colon'     => __('Parent Events:', 'web-systems-events-calendar'),
-      'not_found'             => __('No events found.', 'web-systems-events-calendar'),
-      'not_found_in_trash'    => __('No events found in Trash.', 'web-systems-events-calendar'),
-      'archives'              => __('Event archives',  'web-systems-events-calendar'),
-      'filter_items_list'     => __('Filter events list',  'web-systems-events-calendar'),
-      'items_list_navigation' => __('Events items navigation', 'web-systems-events-calendar'),
-      'items_list'            => __('Events list', 'web-systems-events-calendar')
+      'name'                  => esc_html__('Events', 'web-systems-events-calendar'),
+      'singular_name'         => esc_html__('Event', 'web-systems-events-calendar'),
+      'menu_name'             => esc_html__('Events', 'web-systems-events-calendar'),
+      'name_admin_bar'        => esc_html__('Event', 'web-systems-events-calendar'),
+      'add_new'               => esc_html__('Add New', 'web-systems-events-calendar'),
+      'add_new_item'          => esc_html__('Add New Event', 'web-systems-events-calendar'),
+      'new_item'              => esc_html__('New Event', 'web-systems-events-calendar'),
+      'edit_item'             => esc_html__('Edit Event', 'web-systems-events-calendar'),
+      'view_item'             => esc_html__('View Event', 'web-systems-events-calendar'),
+      'all_items'             => esc_html__('All Events', 'web-systems-events-calendar'),
+      'search_items'          => esc_html__('Search Events', 'web-systems-events-calendar'),
+      'parent_item_colon'     => esc_html__('Parent Events:', 'web-systems-events-calendar'),
+      'not_found'             => esc_html__('No events found.', 'web-systems-events-calendar'),
+      'not_found_in_trash'    => esc_html__('No events found in Trash.', 'web-systems-events-calendar'),
+      'archives'              => esc_html__('Event archives',  'web-systems-events-calendar'),
+      'filter_items_list'     => esc_html__('Filter events list',  'web-systems-events-calendar'),
+      'items_list_navigation' => esc_html__('Events items navigation', 'web-systems-events-calendar'),
+      'items_list'            => esc_html__('Events list', 'web-systems-events-calendar')
     ];
 
     $supports = [
@@ -179,7 +179,7 @@ class EventsManager
   {
     add_meta_box(
       $this->getMetaboxId(),
-      __('Event Settings', 'web-systems-events-calendar'),
+      esc_html__('Event Settings', 'web-systems-events-calendar'),
       [$this, 'renderSingleEventMetaBox'],
       $this->getSlug(),
       'normal',
@@ -200,16 +200,16 @@ class EventsManager
     $html = '<table class="form-table">
 		<tbody>
 			<tr>
-				<th><label for="' . $this->getSubTitleFieldName() . '">' . __('Event Title', 'web-systems-events-calendar') . '</label></th>
-				<td><input required type="text" id="' . $this->getSubTitleFieldName() . '" name="meta[' . $this->getSubTitleFieldName() . ']" value="' . $subTitleValue . '" class="regular-text"></td>
+				<th><label for="' . esc_attr($this->getSubTitleFieldName()) . '">' . esc_html__('Event Title', 'web-systems-events-calendar') . '</label></th>
+<td><input required type="text" id="' . esc_attr($this->getSubTitleFieldName()) . '" name="meta[' . esc_attr($this->getSubTitleFieldName()) . ']" value="' . esc_attr($subTitleValue) . '" class="regular-text"></td>
 			</tr>
 			<tr>
-				<th><label for="' . $this->geteventStartDateFieldName() . '">' . __('Start Date', 'web-systems-events-calendar') . '</label></th>
-        <td><input required type="datetime-local" id="' . $this->geteventStartDateFieldName() . '" name="meta[' . $this->geteventStartDateFieldName() . ']" value="' . $eventStartDateValue . '"></td>
+				<th><label for="' . $this->geteventStartDateFieldName() . '">' . esc_html__('Start Date', 'web-systems-events-calendar') . '</label></th>
+<td><input required type="datetime-local" id="' . esc_attr($this->geteventStartDateFieldName()) . '" name="meta[' . esc_attr($this->geteventStartDateFieldName()) . ']" value="' . esc_attr($eventStartDateValue) . '"></td>
 			</tr>
       <tr>
-        <th><label for="' . $this->getEventEndDateFieldName() . '">' . __('End Date', 'web-systems-events-calendar') . '</label></th>
-        <td><input required type="datetime-local" id="' . $this->getEventEndDateFieldName() . '" name="meta[' . $this->getEventEndDateFieldName() . ']" value="' . $eventEndDateValue . '"></td>
+        <th><label for="' . $this->getEventEndDateFieldName() . '">' . esc_html__('End Date', 'web-systems-events-calendar') . '</label></th>
+<td><input required type="datetime-local" id="' . esc_attr($this->getEventEndDateFieldName()) . '" name="meta[' . esc_attr($this->getEventEndDateFieldName()) . ']" value="' . esc_attr($eventEndDateValue) . '"></td>
       </tr>
 		</tbody>
 	</table>';
@@ -223,11 +223,11 @@ class EventsManager
       return;
     }
 
-    if (!isset($_POST['wsec_nonce']) || !wp_verify_nonce($_POST['wsec_nonce'], basename(__FILE__))) {
+    if (!isset($_POST['wsec_nonce']) || !wp_verify_nonce(sanitize_text_field($_POST['wsec_nonce']), basename(__FILE__))) {
       return 'nonce not verified';
     }
 
-    foreach ($_POST['meta'] as $key => $meta) {
+    foreach (array_map('sanitize_text_field', $_POST['meta']) as $key => $meta) {
       update_post_meta($post_id, $key, $meta);
     }
   }

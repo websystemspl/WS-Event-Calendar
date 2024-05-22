@@ -14,8 +14,8 @@ if (get_header('desktop') === false) {
 }
 
 $events = new Events;
-echo "<main class='main'>";
-echo $events->displayEventList(true, "10");
-echo "</main>";
+echo esc_html("<main class='main'>");
+echo wp_kses_post($events->displayEventList(true, "10"));
+echo esc_html("</main>");
 
 get_footer();

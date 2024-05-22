@@ -49,20 +49,20 @@ class Events
             $html .= "<div class='columns'>";
             $html .= "<div class='column'>";
             if ('' !== $image) {
-                $html .= "<div class='event-image'><img src=" . $image . " width='200px' height='200px'></div>";
+                $html .= "<div class='event-image'><img src=" . esc_url($image) . " width='200px' height='200px'></div>";
             } else {
-                $html .= "<div class='event-image'><img src=" . WS_EVENT_CALENDAR_PLUGIN_DIR_URL . '/assets/src/img/event-placeholder.png' . " width='200px' height='200px'></div>";
+                $html .= "<div class='event-image'><img src=" . esc_url(WS_EVENT_CALENDAR_PLUGIN_DIR_URL . '/assets/src/img/event-placeholder.png') . " width='200px' height='200px'></div>";
             }
             $html .= "</div>";
             $html .= "<div class='column'>";
             $html .= "<div class='event-info'>";
-            $html .= "<h3 class='sub-title'>" . $event->getSubTitle() . "</h3>";
-            $html .= "<p class='start-date'>" . __('Start: ', 'web-systems-events-calendar') . $startDate->format('Y-m-d H:i') . "</p>";
-            $html .= "<p class='end-date'>" . __('End: ', 'web-systems-events-calendar') . $endDate->format('Y-m-d H:i') . "</p>";
+            $html .= "<h3 class='sub-title'>" . esc_html($event->getSubTitle()) . "</h3>";
+            $html .= "<p class='start-date'>" . esc_html__('Start: ', 'web-systems-events-calendar') . esc_html($startDate->format('Y-m-d H:i')) . "</p>";
+            $html .= "<p class='end-date'>" . esc_html__('End: ', 'web-systems-events-calendar') . esc_html($endDate->format('Y-m-d H:i')) . "</p>";
             $html .= "<p class='time-left'></p>";
-            $html .= "<p class='description'>" . $event->getDescription() . "</p>";
+            $html .= "<p class='description'>" . wp_kses_post($event->getDescription()) . "</p>";
             $html .= "</div>";
-            $html .= "<a class='btn btn-primary btn-lg show-more-button' href=" . get_permalink($event->getID()) . ">" . __('Show more', 'web-systems-events-calendar') . "</a>";
+            $html .= "<a class='btn btn-primary btn-lg show-more-button' href=" . esc_url(get_permalink($event->getID())) . ">" . esc_html__('Show more', 'web-systems-events-calendar') . "</a>";
             $html .= "</div>";
             $html .= "</div>";
             $html .= "</div>";
